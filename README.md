@@ -15,4 +15,7 @@ Pre Reqs
 * Node
 * NPM
 
-browse to checkout and run the command `npm install`
+Install using the command:
+
+
+`npm install netsumo`
