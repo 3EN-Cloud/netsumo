@@ -31,7 +31,7 @@ Add netsumo to your project using the command `npm install netsumo`
 
 Add your testing framework of choice, we're going to use chai and mocha for this example, install them using these commands:
 
-`npm install mocha`
+`npm install -g mocha`
 
 `npm install chai`
 
