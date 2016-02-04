@@ -1,5 +1,5 @@
 {
-  "name": "NetSUMO",
+  "name": "netsumo",
   "version": "1.0.0",
   "description": "NetSUite MOcker",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/ProductEarthSolutions/netsumo.git"
   },
-  "author": "Product Earth Solutions",
+  "author": "productearthsolutions",
   "license": "MIT",
   "homepage": "https://github.com/ProductEarthSolutions/netsumo",
   "dependencies": {
