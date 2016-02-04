@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://mwilson_PES@bitbucket.org/productearthsolutions/netsumo.git"
+    "url": "git+https://github.com/ProductEarthSolutions/netsumo.git"
   },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/productearthsolutions/netsumo#readme",
+  "author": "Product Earth Solutions",
+  "license": "MIT",
+  "homepage": "https://github.com/ProductEarthSolutions/netsumo",
   "dependencies": {
     "clone": "^1.0.2"
   },
