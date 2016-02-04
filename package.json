@@ -1,0 +1,23 @@
+{
+  "name": "NetSUMO",
+  "version": "1.0.0",
+  "description": "NetSUite MOcker",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mwilson_PES@bitbucket.org/productearthsolutions/netsumo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/productearthsolutions/netsumo#readme",
+  "dependencies": {
+    "clone": "^1.0.2"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
