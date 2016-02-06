@@ -12,9 +12,12 @@ var nlobjRecord = function (recordtype, internalid) {
   var currentLineItems =  {'item':[]}
   var fieldValues = {}
 
+
   var setFieldValue = function(name, value) {
     fieldValues[name] = value
   }
+
+  setFieldValue('internalid', id)
 
   var getFieldValue = function(name) {
     if(fieldValues[name]) {

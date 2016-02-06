@@ -1,4 +1,7 @@
 var nlobjRecord = require('../modules/nlobjRecord.js')
+var nlobjSearchFilter = require('../modules/nlobjSearchFilter.js')
+var nlobjSearchColumn = require('../modules/nlobjSearchColumn.js')
+var nlobjSearchResult = require('../modules/nlobjSearchResult.js')
 
 exports.getDefaultContext = function() {
 
@@ -68,6 +71,54 @@ exports.getDefaultContext = function() {
     return transformedRecord
   }
 
+  var nlapiSearchRecord = function(type,id,filters,columns) {
+
+    var matchingResults = [];
+
+    if(!id || id == null || id == '' || id == undefined) {
+
+      recordsArray.forEach(function(record){
+
+        var matchingRecord = true;
+
+        filters.forEach(function(filter){
+
+          if(!filter.matchesRecord(record)) {
+            matchingRecord = false
+          }
+
+        })
+
+        if(matchingRecord) {
+          matchingResults.push(record)
+        }
+
+      })
+
+    }
+
+
+    var searchResults = []
+
+    if(matchingResults.length > 0) {
+      matchingResults.forEach(function(matchingResult) {
+
+        var searchResult = new nlobjSearchResult()
+        searchResult.setId(matchingResult.getId())
+        searchResult.setRecordType(matchingResult.getRecordType())
+
+        columns.forEach(function(column) {
+          var value = matchingResult.getFieldValue(column.getName())
+          searchResult.setValue(column.getName(), value)
+        })
+
+        searchResults.push(searchResult)
+      })
+    }
+
+    return searchResults
+  }
+
   return {
     nlapiLogExecution : nlapiLogExecution,
     nlapiCreateError : nlapiCreateError,
@@ -77,7 +128,10 @@ exports.getDefaultContext = function() {
     nlapiSetRecordType : nlapiSetRecordType,
     nlapiSubmitRecord : nlapiSubmitRecord,
     nlapiLoadRecord : nlapiLoadRecord,
-    nlapiTransformRecord : nlapiTransformRecord
+    nlapiTransformRecord : nlapiTransformRecord,
+    nlobjSearchFilter : nlobjSearchFilter,
+    nlobjSearchColumn : nlobjSearchColumn,
+    nlapiSearchRecord : nlapiSearchRecord
   };
 
 }
