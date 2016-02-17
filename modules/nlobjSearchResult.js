@@ -29,6 +29,11 @@ var nlobjSearchResult = function () {
   }
 
   var getValue = function(column) {
+
+    if(column.getName != null || typeof column.getName != 'undefined') {
+      return values[column.getName()]
+    }
+
     return values[column]
   }
 

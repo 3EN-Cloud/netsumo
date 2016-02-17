@@ -51,7 +51,32 @@ var nlobjSearchFilter = function (name, join, operator, value1, value2) {
       var value = record.getFieldValue(name)
 
       return (!value || value == '' || value.length == 0)
-      
+
+    } else if(operator == 'is') {
+
+      if(name == 'recordType') {
+        return (record.getRecordType() == value1)
+      } else {
+        var value = record.getFieldValue(name)
+
+        return (value == value1)
+      }
+    } else if(operator == 'equalto') {
+
+      if(name == 'quantity' && record.getRecordType() == 'returnauthorization') {
+
+        var lineCount = record.getLineItemCount('item')
+        for (var line = 1; line<=lineCount; line++ ) {
+          var quantity = record.getLineItemValue('item','quantity',line);
+
+          if(quantity == value1) {
+            return true;
+          }
+
+        }
+
+      }
+
     }
 
     return false

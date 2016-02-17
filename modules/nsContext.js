@@ -2,9 +2,12 @@ var nlobjRecord = require('../modules/nlobjRecord.js')
 var nlobjSearchFilter = require('../modules/nlobjSearchFilter.js')
 var nlobjSearchColumn = require('../modules/nlobjSearchColumn.js')
 var nlobjSearchResult = require('../modules/nlobjSearchResult.js')
+var nodemailer = require('nodemailer');
+var pickupTransport = require('nodemailer-pickup-transport');
 
-exports.getDefaultContext = function() {
+exports.getDefaultContext = function(opts) {
 
+  var defaultContextOptions = opts
   var recordsArray = []
   var recordId = 0
   var recordType = ''
@@ -119,6 +122,41 @@ exports.getDefaultContext = function() {
     return searchResults
   }
 
+  var nlapiSendEmail = function (author,recipient,subject,body,cc,bcc,records,attachments,notifySenderOnBounce,internalOnly,replyTo) {
+
+    var mailOptions = {
+        from: author,
+        to: recipient,
+        subject: subject,
+        html: body
+    };
+
+    if(typeof defaultContextOptions.emailPath == 'undefined' || defaultContextOptions.emailPath == null) {
+      console.log(mailOptions);
+    } else {
+      // create reusable transporter object using the default SMTP transport
+      var transporter = nodemailer.createTransport(pickupTransport({
+          directory: defaultContextOptions.emailPath
+      }));
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              return console.log(error);
+          }
+          console.log('Message sent: ' + info.response);
+      });
+    }
+  }
+
+  var nlapiResolveURL = function(type,identifier,id,displayMode) {
+
+    if(type == 'record' && identifier == 'returnauthorization') {
+      return "https://system.na1.netsuite.com/app/accounting/transactions/rtnauth.nl?id="+id+"&whence="
+    }
+
+  }
+
   return {
     nlapiLogExecution : nlapiLogExecution,
     nlapiCreateError : nlapiCreateError,
@@ -131,7 +169,9 @@ exports.getDefaultContext = function() {
     nlapiTransformRecord : nlapiTransformRecord,
     nlobjSearchFilter : nlobjSearchFilter,
     nlobjSearchColumn : nlobjSearchColumn,
-    nlapiSearchRecord : nlapiSearchRecord
+    nlapiSearchRecord : nlapiSearchRecord,
+    nlapiSendEmail : nlapiSendEmail,
+    nlapiResolveURL : nlapiResolveURL
   };
 
 }
