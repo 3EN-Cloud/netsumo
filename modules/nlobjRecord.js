@@ -50,7 +50,13 @@ var nlobjRecord = function (recordtype, internalid) {
   }
 
   var selectNewLineItem = function(group) {
-    currentLineItems[group] = {}
+    if(group == 'item') {
+      currentLineItems[group] = {}
+      currentLineItems[group]['id'] = id+'_'+lineItems.length;
+      currentLineItems[group]['line'] = lineItems.length;
+    } else {
+      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
+    }
   }
 
   var setCurrentLineItemValue = function(group,name,value) {
@@ -75,9 +81,9 @@ var nlobjRecord = function (recordtype, internalid) {
 
   //This funtion is for netsim use only, do not use as part of a suitescript
   //as it is not part of the netsuite api.
-  var transform = function(transformType) {
+  var transform = function(transformType, newRecordId) {
     var clonedLineItems = clone(lineItems)
-    var clonedRecord = nlobjRecord(transformType,id+1)
+    var clonedRecord = nlobjRecord(transformType,newRecordId)
 
     for(var i = 0; i < clonedLineItems.length; i++) {
       clonedRecord.selectNewLineItem('item')
