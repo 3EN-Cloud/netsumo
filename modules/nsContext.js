@@ -13,11 +13,12 @@ exports.getDefaultContext = function(opts) {
   var recordType = ''
 
   var nlapiLogExecution = function(type,title,details) {
-    console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details)
+    if(!opts.supressNlapiLogOutput) {
+      console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details)
+    }
   }
 
   var nlapiCreateError = function(code,details,suppressNotification) {
-    console.log("NLAPI ERROR CODE: "+code+" | DETAILS: "+details+" | SUPPRESS NOTIFICATION: "+suppressNotification)
     return new Error("NLAPI ERROR CODE: "+code+" | DETAILS: "+details+" | SUPPRESS NOTIFICATION: "+suppressNotification)
   }
 
@@ -79,7 +80,7 @@ exports.getDefaultContext = function(opts) {
   var nlapiTransformRecord = function(type,id,transformType,transformValues) {
 
     var record = nlapiLoadRecord(type,id)
-    var transformedRecord = record.transform(transformType)
+    var transformedRecord = record.transform(transformType, getNextAvailableRecordId())
 
     return transformedRecord
   }
@@ -154,7 +155,6 @@ exports.getDefaultContext = function(opts) {
           if(error){
               return console.log(error);
           }
-          console.log('Message sent: ' + info.response);
       });
     }
   }
@@ -164,6 +164,21 @@ exports.getDefaultContext = function(opts) {
     if(type == 'record' && identifier == 'returnauthorization') {
       return "https://system.na1.netsuite.com/app/accounting/transactions/rtnauth.nl?id="+id+"&whence="
     }
+
+  }
+
+  var getNextAvailableRecordId = function() {
+    var maxRecordId = 0;
+
+    for(var i = 0; i < recordsArray.length; i++) {
+      var record = recordsArray[i]
+
+      if(record.getId() > maxRecordId) {
+        maxRecordId = record.getId();
+      }
+    }
+
+    return maxRecordId + 1
 
   }
 
