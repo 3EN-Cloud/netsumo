@@ -37,6 +37,16 @@ exports.getDefaultContext = function(opts) {
     recordType = type
   }
 
+  var nlapiDeleteRecord = function(type,id) {
+    for(var i = 0; i < recordsArray.length; i++) {
+      var record = recordsArray[i];
+      if(record.getRecordType() == type && record.getId() == id) {
+        recordsArray.splice(i, 1);
+      }
+    }
+    throw new Error('NETSIM ERROR: Couldnt find any record matching id:'+id+' with type: '+type);
+  }
+
   var nlapiSubmitRecord = function(record,doSourcing,ignoreMandatoryFields) {
 
     var updatedExistingRecord = false;
@@ -171,7 +181,8 @@ exports.getDefaultContext = function(opts) {
     nlobjSearchColumn : nlobjSearchColumn,
     nlapiSearchRecord : nlapiSearchRecord,
     nlapiSendEmail : nlapiSendEmail,
-    nlapiResolveURL : nlapiResolveURL
+    nlapiResolveURL : nlapiResolveURL,
+    nlapiDeleteRecord : nlapiDeleteRecord
   };
 
 }
