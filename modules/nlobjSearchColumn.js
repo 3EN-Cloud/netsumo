@@ -24,7 +24,8 @@ var nlobjSearchColumn = function (name, join, summary) {
   return {
     getName:getName,
     getJoin:getJoin,
-    getSummary:getSummary
+    getSummary:getSummary,
+    setSort:setSort
   }
 
 }
