@@ -2,6 +2,7 @@ var nlobjRecord = require('../modules/nlobjRecord.js')
 var nlobjSearchFilter = require('../modules/nlobjSearchFilter.js')
 var nlobjSearchColumn = require('../modules/nlobjSearchColumn.js')
 var nlobjSearchResult = require('../modules/nlobjSearchResult.js')
+var nlobjContext = require('../modules/nlobjContext.js')
 var nodemailer = require('nodemailer');
 var pickupTransport = require('nodemailer-pickup-transport');
 
@@ -11,6 +12,8 @@ exports.getDefaultContext = function(opts) {
   var recordsArray = []
   var recordId = 0
   var recordType = ''
+  var nlobjContext;
+
 
   var nlapiLogExecution = function(type,title,details) {
     if(!opts.supressNlapiLogOutput) {
@@ -180,6 +183,14 @@ exports.getDefaultContext = function(opts) {
 
     return maxRecordId + 1
 
+  }
+
+  var setNlobjContext = function(nlobjContext) {
+    nlobjContext = this.nlobjContext;
+  }
+
+  var nlapiGetContext = function() {
+    return nlobjContext;
   }
 
   return {
