@@ -9,8 +9,12 @@ var nlobjRecord = function (recordtype, internalid) {
   var id = internalid;
   var type = recordtype;
   var lineItems = [];
-  var currentLineItems =  {'item':[]}
-  var fieldValues = {}
+  var addressBookLines = [];
+  var fieldValues = {};
+  var currentLineItems =  {
+    'item':[],
+    'addressbook':[]
+  };
 
 
   var setFieldValue = function(name, value) {
@@ -54,9 +58,18 @@ var nlobjRecord = function (recordtype, internalid) {
       currentLineItems[group] = {}
       currentLineItems[group]['id'] = id+'_'+lineItems.length;
       currentLineItems[group]['line'] = lineItems.length;
+    } else if(group == 'addressbook') {
+      currentLineItems[group] = {}
+      currentLineItems[group]['id'] = id+'_'+lineItems.length;
+      currentLineItems[group]['line'] = lineItems.length;
+      currentLineItems[group]['addressbookaddress'] = [];
     } else {
       throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
     }
+  }
+
+  var createCurrentLineItemSubrecord = function(sublist,fldname) {
+
   }
 
   var setCurrentLineItemValue = function(group,name,value) {
@@ -117,7 +130,8 @@ var nlobjRecord = function (recordtype, internalid) {
     commitLineItem : commitLineItem,
     getRecordType : getRecordType,
     getId : getId,
-    transform : transform
+    transform : transform,
+    createCurrentLineItemSubrecord:createCurrentLineItemSubrecord
   }
 
 }
