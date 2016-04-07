@@ -5,9 +5,7 @@ var nlobjField = function (name, join, summary) {
   var selectOptions = [];
 
   var addSelectOption = function(value, text, selected) {
-    console.log("adding select option");
     selectOptions.push(new nlobjSelectOption(value, text))
-    console.log(selectOptions)
   }
 
   var getName = function() {
@@ -15,8 +13,6 @@ var nlobjField = function (name, join, summary) {
   }
 
   var getSelectOptions = function(filter, filteroperator) {
-
-    console.log(selectOptions)
 
     if(filter == null) {
       return selectOptions;

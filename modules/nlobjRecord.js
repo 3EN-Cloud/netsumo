@@ -30,6 +30,8 @@ var nlobjRecord = function (recordtype, internalid) {
     if(fieldValues[name]) {
       return fieldValues[name]
     }
+
+    return undefined;
   }
 
   var getLineItemCount = function(group) {
@@ -108,8 +110,9 @@ var nlobjRecord = function (recordtype, internalid) {
     }
   }
 
+  //This funtion is for netsim use only, do not use as part of a suitescript
+  //as it is not part of the netsuite api.
   var addField = function(name,type,label,source,group) {
-    console.log("Warning: addField is not part of the netsuite api, use this for mocking data only");
     fields.push(new nlobjField(name));
   }
 
