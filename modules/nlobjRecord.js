@@ -37,6 +37,8 @@ var nlobjRecord = function (recordtype, internalid) {
   var getLineItemCount = function(group) {
     if(group == 'item') {
       return lineItems.length
+    } else if(group == 'addressbook') {
+      return addressBookLines.length
     } else {
       return 0
     }
@@ -53,6 +55,8 @@ var nlobjRecord = function (recordtype, internalid) {
   var getLineItemValue = function(group,name,line) {
     if(group == 'item') {
       return lineItems[line-1][name]
+    } else if(group == 'addressbook') {
+      return addressBookLines[line-1][name]
     } else {
       throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
     }
@@ -77,6 +81,20 @@ var nlobjRecord = function (recordtype, internalid) {
     var subRecord = new nlobjSubRecord(fldname);
     currentLineItems[sublist][fldname].push(subRecord);
     return subRecord;
+  }
+
+  var selectLineItem = function(group,linenum) {
+    if(group == 'item') {
+      currentLineItems[group] = lineItems[linenum-1]
+    } else if(group == 'addressbook') {
+      currentLineItems[group] = addressBookLines[linenum-1]
+    } else {
+      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
+    }
+  }
+
+  var viewCurrentLineItemSubrecord = function(sublist,fldname) {
+    return currentLineItems[sublist][fldname][0]
   }
 
   var setCurrentLineItemValue = function(group,name,value) {
@@ -157,7 +175,9 @@ var nlobjRecord = function (recordtype, internalid) {
     transform : transform,
     createCurrentLineItemSubrecord:createCurrentLineItemSubrecord,
     getField:getField,
-    addField:addField
+    addField:addField,
+    selectLineItem:selectLineItem,
+    viewCurrentLineItemSubrecord:viewCurrentLineItemSubrecord
   }
 
 }
