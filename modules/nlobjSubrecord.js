@@ -1,4 +1,4 @@
-var nlobjSubrecord = function (recordtype, internalid) {
+var nlobjSubRecord = function (recordtype, internalid) {
   var nlobjRecord = require('../modules/nlobjRecord.js')
   var record = new nlobjRecord(recordtype, internalid);
 
@@ -14,4 +14,4 @@ var nlobjSubrecord = function (recordtype, internalid) {
 
 }
 
-module.exports = nlobjSubrecord
+module.exports = nlobjSubRecord
