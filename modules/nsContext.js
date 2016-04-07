@@ -12,7 +12,7 @@ exports.getDefaultContext = function(opts) {
   var recordsArray = []
   var recordId = 0
   var recordType = ''
-  var nlobjContext;
+  var nlobjContext
 
 
   var nlapiLogExecution = function(type,title,details) {
@@ -42,7 +42,7 @@ exports.getDefaultContext = function(opts) {
   }
 
   var nlapiCreateRecord = function(type,initializeValues) {
-    var record = nlobjRecord(type);
+    var record = new nlobjRecord(type);
     return record;
   }
 
@@ -199,6 +199,10 @@ exports.getDefaultContext = function(opts) {
     return nlobjContext;
   }
 
+  var getAllRecords = function() {
+    return recordsArray;
+  }
+
   return {
     nlapiLogExecution : nlapiLogExecution,
     nlapiCreateError : nlapiCreateError,
@@ -215,7 +219,8 @@ exports.getDefaultContext = function(opts) {
     nlapiSendEmail : nlapiSendEmail,
     nlapiResolveURL : nlapiResolveURL,
     nlapiDeleteRecord : nlapiDeleteRecord,
-    nlapiCreateRecord : nlapiCreateRecord
+    nlapiCreateRecord : nlapiCreateRecord,
+    getAllRecords : getAllRecords
   };
 
 }

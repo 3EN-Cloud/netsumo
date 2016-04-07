@@ -1,4 +1,6 @@
 var clone = require('clone')
+var nlobjField = require('../modules/nlobjField.js')
+var nlobjSubRecord = require('../modules/nlobjSubRecord.js')
 
 var nlobjRecord = function (recordtype, internalid) {
 
@@ -10,6 +12,7 @@ var nlobjRecord = function (recordtype, internalid) {
   var type = recordtype;
   var lineItems = [];
   var addressBookLines = [];
+  var fields = [];
   var fieldValues = {};
   var currentLineItems =  {
     'item':[],
@@ -69,7 +72,9 @@ var nlobjRecord = function (recordtype, internalid) {
   }
 
   var createCurrentLineItemSubrecord = function(sublist,fldname) {
-
+    var subRecord = new nlobjSubRecord(fldname);
+    currentLineItems[sublist][fldname].push(subRecord);
+    return subRecord;
   }
 
   var setCurrentLineItemValue = function(group,name,value) {
@@ -79,6 +84,8 @@ var nlobjRecord = function (recordtype, internalid) {
   var commitLineItem = function(group,ignoreRecalc) {
     if(group == 'item') {
       lineItems.push(currentLineItems[group])
+    } if(group == 'addressbook') {
+      addressBookLines.push(currentLineItems[group])
     } else {
       throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
     }
@@ -90,6 +97,20 @@ var nlobjRecord = function (recordtype, internalid) {
 
   var getId = function() {
     return id
+  }
+
+  var getField = function(fldnam) {
+    for(var i = 0; i < fields.length; i++) {
+      var field = fields[i]
+      if(field.getName() == fldnam) {
+        return field;
+      }
+    }
+  }
+
+  var addField = function(name,type,label,source,group) {
+    console.log("Warning: addField is not part of the netsuite api, use this for mocking data only");
+    fields.push(new nlobjField(name));
   }
 
   //This funtion is for netsim use only, do not use as part of a suitescript
@@ -131,7 +152,9 @@ var nlobjRecord = function (recordtype, internalid) {
     getRecordType : getRecordType,
     getId : getId,
     transform : transform,
-    createCurrentLineItemSubrecord:createCurrentLineItemSubrecord
+    createCurrentLineItemSubrecord:createCurrentLineItemSubrecord,
+    getField:getField,
+    addField:addField
   }
 
 }
