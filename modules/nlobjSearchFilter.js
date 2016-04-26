@@ -77,6 +77,15 @@ var nlobjSearchFilter = function (name, join, operator, value1, value2) {
 
       }
 
+    } else if(operator == 'anyof' && value1 && value1.constructor.toString().indexOf('Array') > -1) {
+
+      for(var i = 0; i < value1.length; i++) {
+        var value = value1[i];
+        if(record.getFieldValue(name) == value) {
+          return true;
+        }
+      }
+
     }
 
     return false
