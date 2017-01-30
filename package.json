@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProductEarthSolutions/netsumo.git"
+    "url": "git+https://github.com/3EN-Cloud/netsumo.git"
   },
-  "author": "productearthsolutions",
+  "author": "3EN-Cloud",
   "license": "MIT",
-  "homepage": "https://github.com/ProductEarthSolutions/netsumo",
+  "homepage": "https://github.com/3EN-Cloud/netsumo",
   "dependencies": {
     "clone": "^1.0.2",
     "nodemailer": "^2.1.0",
