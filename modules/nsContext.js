@@ -21,7 +21,7 @@ exports.getDefaultContext = function(opts) {
 
 
   var nlapiLogExecution = function(type,title,details) {
-    if(!defaultContextOptions.supressNlapiLogOutput) {
+    if(!defaultContextOptions.suppressNlapiLogOutput) {
       console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details)
     }
   }
