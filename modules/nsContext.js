@@ -9,7 +9,11 @@ var pickupTransport = require('nodemailer-pickup-transport');
 
 exports.getDefaultContext = function(opts) {
 
-  var defaultContextOptions = opts
+  if(!opts) {
+    opts = {};
+  }
+
+  var defaultContextOptions = opts;
   var recordsArray = []
   var recordId = 0
   var recordType = ''
@@ -17,7 +21,7 @@ exports.getDefaultContext = function(opts) {
 
 
   var nlapiLogExecution = function(type,title,details) {
-    if(!opts.supressNlapiLogOutput) {
+    if(!defaultContextOptions.supressNlapiLogOutput) {
       console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details)
     }
   }
