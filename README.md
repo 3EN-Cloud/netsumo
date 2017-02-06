@@ -169,3 +169,16 @@ This will run your test and output the result:
       1 passing (40ms)
 
 You will notice that the output from the `nlapiLogExecution` function calls in our suite script are also displayed.
+
+## Options ##
+
+A number of options can be passed to the `nsContext.getDefaultContext()` function to help configure the context. These are all optional.
+
+```javascript
+var opts = {
+    'suppressNlapiLogOutput': true, //will suppress log output for all calls to nlapiLogExecution from your suitelet. Makes log output less verbose.
+    'emailPath':'/some/path' //The directory path to where nlapiSendEmail emails will be saved.
+}
+
+var context = nsContext.getDefaultContext(opts);
+```
