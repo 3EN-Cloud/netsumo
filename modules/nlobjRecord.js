@@ -27,7 +27,7 @@ var nlobjRecord = function (recordtype, internalid) {
   setFieldValue('internalid', id)
 
   var getFieldValue = function(name) {
-    if(fieldValues[name]) {
+    if(typeof fieldValues[name] !== 'undefined') {
       return fieldValues[name]
     }
 
