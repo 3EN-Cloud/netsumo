@@ -212,6 +212,56 @@ exports.getDefaultContext = function(opts) {
     return recordsArray;
   }
 
+   var nlapiLookupField = function(type, id, fields, text){
+    console.log(type);
+    console.log(id);
+    var record = nlapiLoadRecord(type,id)
+    if(typeof fields == 'string'){
+      return record.getFieldValue(fields)
+    }else if(Array.isArray(fields)){
+      var results = {}
+      for(var i = 0; i < fields.length; i++){
+        results[fields[i]] = record.getFieldValue(fields[i]);
+      }
+      return results;
+    }
+    return null;
+  }
+
+  var nlapiAddMonths = function(date, months){
+    return date.setMonth(date.getMonth() + months);
+  }
+
+  nlapiStringToDate = function(str, format){
+    let monthDayYearArray = [];
+    if(str.indexOf('/') > -1){
+      monthDayYearArray = str.split('/')
+    }else{
+      monthDayYearArray = str.split('.')
+    }
+    return new Date(monthDayYearArray[2], monthDayYearArray[1], monthDayYearArray[0])
+  }
+
+  nlapiDateToString = function(d, format){
+    format = format.trim().toLowerCase();
+    var hours = d.getHours();
+    var ampm = (hours > 11 ? 'pm' : 'am' ); 
+    if(hours > 12){
+      hours = hours - 12;
+    }
+    var dateFormatted =  d.getMonth() + 1 +'/' + d.getDate() +'/' + d.getFullYear()
+    var timeFormatted =  hours + ':' + d.getMinutes() + ' ' + ampm;
+    
+    if(!format || format == 'date'){
+      return dateFormatted;
+    }else if(format == 'timeofday'){
+      return timeFormatted;
+    }else if(format == 'datetime' || format == 'datetimetz'){
+      return dateFormatted + ' ' + timeFormatted;
+    }
+    return '';
+  }
+
   return {
     nlapiLogExecution : nlapiLogExecution,
     nlapiCreateError : nlapiCreateError,
@@ -229,7 +279,11 @@ exports.getDefaultContext = function(opts) {
     nlapiResolveURL : nlapiResolveURL,
     nlapiDeleteRecord : nlapiDeleteRecord,
     nlapiCreateRecord : nlapiCreateRecord,
-    getAllRecords : getAllRecords
+    getAllRecords : getAllRecords,
+    nlapiLookupField: nlapiLookupField,
+    nlapiAddMonths: nlapiAddMonths,
+    nlapiStringToDate: nlapiStringToDate,
+    nlapiDateToString: nlapiDateToString
   };
 
 }
