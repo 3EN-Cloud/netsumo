@@ -107,7 +107,7 @@ exports.getDefaultContext = function(opts) {
 
       recordsArray.forEach(function(record){
 
-        var matchingRecord = true;
+        var matchingRecord = record.getRecordType() === type;
 
         filters.forEach(function(filter){
 
