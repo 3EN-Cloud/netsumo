@@ -177,7 +177,8 @@ A number of options can be passed to the `nsContext.getDefaultContext()` functio
 ```javascript
 var opts = {
     'suppressNlapiLogOutput': true, //will suppress log output for all calls to nlapiLogExecution from your suitelet. Makes log output less verbose.
-    'emailPath':'/some/path' //The directory path to where nlapiSendEmail emails will be saved.
+    'emailPath':'/some/path', //The directory path to where nlapiSendEmail emails will be saved.
+    'NlapiLogOutLevel': 'debug' // sets the level of output you would like to show in your output
 }
 
 var context = nsContext.getDefaultContext(opts);
