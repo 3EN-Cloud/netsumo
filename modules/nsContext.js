@@ -7,6 +7,16 @@ var nlobjContext = require('../modules/nlobjContext.js');
 var nodemailer = require('nodemailer');
 var pickupTransport = require('nodemailer-pickup-transport');
 
+
+var executionLogLevelMappings ={
+  debug: 1,
+  audit: 2,
+  error: 3,
+  emergency: 4,
+  system: 5
+}
+ 
+
 exports.getDefaultContext = function(opts) {
 
   if(!opts) {
@@ -20,11 +30,19 @@ exports.getDefaultContext = function(opts) {
   var nlobjContext;
 
 
-  var nlapiLogExecution = function(type,title,details) {
-    if(!defaultContextOptions.suppressNlapiLogOutput) {
-      console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details);
+   var nlapiLogExecution = function(type,title,details) {
+    if(defaultContextOptions.suppressNlapiLogOutput) {
+      return
     }
-  };
+    var level = executionLogLevelMappings[type.toLowerCase()];
+    var minLevel = 0;
+    if(defaultContextOptions.NlapiLogOutLevel){
+      minLevel = executionLogLevelMappings[defaultContextOptions.NlapiLogOutLevel.toLowerCase()]
+    }
+    if(level >= minLevel){
+      console.log("TYPE: "+type+" | TITLE: "+title+" | DETAILS: "+details)
+    }
+  }
 
   var nlapiCreateError = function(code,details,suppressNotification) {
     return new Error("NLAPI ERROR CODE: "+code+" | DETAILS: "+details+" | SUPPRESS NOTIFICATION: "+suppressNotification);
