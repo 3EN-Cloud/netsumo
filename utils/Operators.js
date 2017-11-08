@@ -66,19 +66,46 @@ var Operators = function(){
     return record.getFieldValue(name) >  value1
   } 
   var lessthanorequalto = function(record, name, join, value1, value2){
-    // TODO: test it
-    if (record.getFieldValue(name) <= value1) {
-      return true;
-    }
-    return false;
+    return record.getFieldValue(name) <= value1
   }
 
   var greaterthan = function(record, name, join, value1, value2){
-    // TODO: test it
-    if (record.getFieldValue(name) > value1) {
-      return true;
+    return record.getFieldValue(name) > value1;
+  }
+
+  var onOrAfter = function(record, name, join, value1, value2){
+    if(!record.getFieldValue(name)){
+      return false;
     }
-    return false;
+    // convert to date if it isn't already
+    var dateFrom = (typeof value1 == 'string' ? new Date(value1) : value1);
+    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name)); 
+    return _daysBetween(dateFrom, dateOnRecord) >= 0;
+  }
+  var onOrBefore = function(){
+    if(!record.getFieldValue(name)){
+      return false;
+    }
+    // convert to date if it isn't already
+    var dateFrom = (typeof value1 == 'string' ? new Date(value1) : value1);
+    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name)); 
+    return _daysBetween(dateFrom, dateOnRecord) <= 0;
+  }
+
+  // counts the days 
+  var _daysBetween = function(first, second) {
+
+    // Copy date parts of the timestamps, discarding the time parts.
+    var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
+    var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
+
+    // Do the math.
+    var millisecondsPerDay = 1000 * 60 * 60 * 24;
+    var millisBetween = two.getTime() - one.getTime();
+    var days = millisBetween / millisecondsPerDay;
+
+    // Round down.
+    return Math.floor(days);
   }
 
 
