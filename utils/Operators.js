@@ -29,28 +29,24 @@ var Operators = function(){
   }
 
   var is = function(record, name, join, value1, value2){
+    let isMatch = false
     if(name == 'recordType') {
-      return (record.getRecordType() == value1)
+      isMatch = (record.getRecordType() == value1)
+    }else if(Array.isArray(value1)){
+      value1.forEach((element) =>{
+        if(element == record.getFieldValue(name)){
+          isMatch = true;
+        }
+      })
     } else {
-      var value = record.getFieldValue(name)
-
-      return (value == value1)
+      isMatch = value1 == record.getFieldValue(name)
     }
-    return false;
+    return isMatch;
   }
 
   var equalto = function(record, name, join, value1, value2){
 
-    var lineCount = record.getLineItemCount('item')
-    for (var line = 1; line<=lineCount; line++ ) {
-      var quantity = record.getLineItemValue('item','quantity',line);
-
-      if(quantity == value1) {
-        return true;
-      }
-
-    }
-    return false;
+   return this.is(record, name, join, value1, value2)
 
   }
 
