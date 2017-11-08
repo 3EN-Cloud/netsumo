@@ -1,3 +1,5 @@
+var Operator = require('./../utils/Operator');
+
 var nlobjSearchFilter = function (name, join, operator, value1, value2) {
 
   var name = name
@@ -5,6 +7,7 @@ var nlobjSearchFilter = function (name, join, operator, value1, value2) {
   var operator = operator
   var value1 = value1
   var value2 = value2
+  var operatorIns = new Operator();
 
   var getName = function() {
     return name
@@ -31,64 +34,11 @@ var nlobjSearchFilter = function (name, join, operator, value1, value2) {
   //netsumo use only function, not available in suitescript
   var matchesRecord = function(record) {
 
-    if(operator == 'contains') {
-      var value = record.getFieldValue(name);
-      return (value.indexOf(value1) > -1)
-    } else if(operator == 'on') {
-
-      if(value1 == 'today') {
-        var value = record.getFieldValue(name);
-        var today = getNetsuiteDateTimeString();
-
-        var valueParts = value.split(' ')
-        var todayParts = today.split(' ')
-
-        return (valueParts[0] == todayParts[0])
-      }
-
-    } else if(operator == 'isempty') {
-
-      var value = record.getFieldValue(name)
-
-      return (!value || value == '' || value.length == 0)
-
-    } else if(operator == 'is') {
-
-      if(name == 'recordType') {
-        return (record.getRecordType() == value1)
-      } else {
-        var value = record.getFieldValue(name)
-
-        return (value == value1)
-      }
-    } else if(operator == 'equalto') {
-
-      if(name == 'quantity' && record.getRecordType() == 'returnauthorization') {
-
-        var lineCount = record.getLineItemCount('item')
-        for (var line = 1; line<=lineCount; line++ ) {
-          var quantity = record.getLineItemValue('item','quantity',line);
-
-          if(quantity == value1) {
-            return true;
-          }
-
-        }
-
-      }
-
-    } else if(operator == 'anyof' && value1 && value1.constructor.toString().indexOf('Array') > -1) {
-
-      for(var i = 0; i < value1.length; i++) {
-        var value = value1[i];
-        if(record.getFieldValue(name) == value) {
-          return true;
-        }
-      }
-
+    try{
+      operatorIns[operator](record, name, join, value1, value2);
+    }catch(err){
+      throw new Error('NETSIM ERROR: '+operator+' is unsupported.');
     }
-
-    return false
   }
 
   function getNetsuiteDateTimeString() {
