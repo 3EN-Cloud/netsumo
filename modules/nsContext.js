@@ -2,6 +2,7 @@ var nlobjRecord = require('../modules/nlobjRecord.js');
 var nlobjSearchFilter = require('../modules/nlobjSearchFilter.js');
 var nlobjSearchColumn = require('../modules/nlobjSearchColumn.js');
 var nlobjSearchResult = require('../modules/nlobjSearchResult.js');
+var nlobjResponse = require('../modules/nlobjResponse.js')
 var nlobjError = require('../modules/nlobjError.js');
 var nlobjContext = require('../modules/nlobjContext.js');
 var nodemailer = require('nodemailer');
@@ -27,6 +28,7 @@ exports.getDefaultContext = function(opts) {
   var recordsArray = [];
   var recordId = 0;
   var recordType = '';
+  var endPoints = [];
   var nlobjContext;
 
 
@@ -277,6 +279,31 @@ exports.getDefaultContext = function(opts) {
     }
     return '';
   };
+  var nlapiRequestURL = function(url, postdata, headers, callback, httpMethod){
+    
+    var response; 
+    endPoints.forEach((endPoint, index) => {
+      if(endPoint.regex){
+        if(endPoint.regex.test(url)){
+          response = new nlobjResponse(endPoint.data);
+        }
+      }else if(endPoint.url){
+        if(endPoint.url == url){
+          response = new nlobjResponse(endPoint.data);
+        }
+      }
+    })
+    if(!response){
+      throw new Error('Endpoint '+url+' not found. ');
+    }
+    return response;
+  }
+  var addEndpoint = function(endPoint){
+    if(!endPoint.url && !endPoint.regex){
+      throw new Error('Either url or regex are required.');
+    }
+    endPoints.push(endPoint);
+  }
 
   return {
     nlapiLogExecution : nlapiLogExecution,
@@ -299,7 +326,9 @@ exports.getDefaultContext = function(opts) {
     nlapiLookupField: nlapiLookupField,
     nlapiAddMonths: nlapiAddMonths,
     nlapiStringToDate: nlapiStringToDate,
-    nlapiDateToString: nlapiDateToString
+    nlapiDateToString: nlapiDateToString,
+    nlapiRequestURL: nlapiRequestURL,
+    addEndpoint: addEndpoint
   };
 
 };

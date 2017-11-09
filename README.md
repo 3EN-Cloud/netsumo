@@ -170,6 +170,29 @@ This will run your test and output the result:
 
 You will notice that the output from the `nlapiLogExecution` function calls in our suite script are also displayed.
 
+#### Creating fake endpoints for nlapiRequestURL ####
+
+Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Data is the data you want to send back. URL is the url being called. Or alternatively, you can use the regex option to use a regex test on the call's url. 
+
+```javascript
+var netsumo = require('netsumo');
+var nsContext = netsumo.nsContext;
+var context = nsContext.getDefaultContext();
+
+context.addEndpoint({
+  url: 'https://example.com/admin/products.json', 
+  data: JSON.stringify({ products: []});
+});
+
+
+context.addEndpoint({
+  regex: /\/admin\/products\.json/g, 
+  data: JSON.stringify({ products: []});
+});
+
+
+```
+
 ## Options ##
 
 A number of options can be passed to the `nsContext.getDefaultContext()` function to help configure the context. These are all optional.
