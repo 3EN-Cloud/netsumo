@@ -298,12 +298,17 @@ exports.getDefaultContext = function(opts) {
     }
     return response;
   }
+   var nlapiEscapeXML = function(text){
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, ' &quot;');
+    }
+
   var addEndpoint = function(endPoint){
     if(!endPoint.url && !endPoint.regex){
       throw new Error('Either url or regex are required.');
     }
     endPoints.push(endPoint);
   }
+
 
   return {
     nlapiLogExecution : nlapiLogExecution,
@@ -328,6 +333,7 @@ exports.getDefaultContext = function(opts) {
     nlapiStringToDate: nlapiStringToDate,
     nlapiDateToString: nlapiDateToString,
     nlapiRequestURL: nlapiRequestURL,
+    nlapiEscapeXML: nlapiEscapeXML,
     addEndpoint: addEndpoint
   };
 
