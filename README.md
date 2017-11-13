@@ -172,7 +172,7 @@ You will notice that the output from the `nlapiLogExecution` function calls in o
 
 #### Creating fake endpoints for nlapiRequestURL ####
 
-Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Data is the data you want to send back. URL is the url being called. Or alternatively, you can use the regex option to use a regex test on the call's url. 
+Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Regex and url are used to match the url directly. Data is what is returned. 
 
 ```javascript
 var netsumo = require('netsumo');
@@ -189,9 +189,27 @@ context.addEndpoint({
   regex: /\/admin\/products\.json/g, 
   data: JSON.stringify({ products: []});
 });
+```
+
+Alternatively, you can pass a function into the data attribute that returns the data you want to use. This is for situations in which an API you are trying to mimic returns different results based on method or post data.
+
+```javascript
+context.addEndpoint({
+  url: 'https://ics2wstesta.ic3.com/commerce/1.x/transactionProcessor/',
+  data: function(url, postdata, headers, callback, httpMethod){
+    if(httpMethod === 'GET'){
+      return JSON.stringify({ something: {}});
+    }else if(httpMethod === 'POST'){
+       return JSON.stringify({ somethingElse: {}});
+    }
+  }
+})
 
 
 ```
+
+
+
 
 ## Options ##
 

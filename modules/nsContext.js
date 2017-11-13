@@ -283,6 +283,9 @@ exports.getDefaultContext = function(opts) {
     
     var response; 
     endPoints.forEach((endPoint, index) => {
+      if(typeof endPoint.data == 'function'){
+        endPoint.data = endPoint.data(url, postdata, headers, callback, httpMethod);
+      }
       if(endPoint.regex){
         if(endPoint.regex.test(url)){
           response = new nlobjResponse(endPoint.data);
