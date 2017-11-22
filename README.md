@@ -170,6 +170,47 @@ This will run your test and output the result:
 
 You will notice that the output from the `nlapiLogExecution` function calls in our suite script are also displayed.
 
+#### Creating fake endpoints for nlapiRequestURL ####
+
+Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Regex and url are used to match the url directly. Data is what is returned. 
+
+```javascript
+var netsumo = require('netsumo');
+var nsContext = netsumo.nsContext;
+var context = nsContext.getDefaultContext();
+
+context.addEndpoint({
+  url: 'https://example.com/admin/products.json', 
+  data: JSON.stringify({ products: []});
+});
+
+
+context.addEndpoint({
+  regex: /\/admin\/products\.json/g, 
+  data: JSON.stringify({ products: []});
+});
+```
+
+Alternatively, you can pass a function into the data attribute that returns the data you want to use. This is for situations in which an API you are trying to mimic returns different results based on method or post data.
+
+```javascript
+context.addEndpoint({
+  url: 'https://ics2wstesta.ic3.com/commerce/1.x/transactionProcessor/',
+  data: function(url, postdata, headers, callback, httpMethod){
+    if(httpMethod === 'GET'){
+      return JSON.stringify({ something: {}});
+    }else if(httpMethod === 'POST'){
+       return JSON.stringify({ somethingElse: {}});
+    }
+  }
+})
+
+
+```
+
+
+
+
 ## Options ##
 
 A number of options can be passed to the `nsContext.getDefaultContext()` function to help configure the context. These are all optional.
@@ -177,7 +218,8 @@ A number of options can be passed to the `nsContext.getDefaultContext()` functio
 ```javascript
 var opts = {
     'suppressNlapiLogOutput': true, //will suppress log output for all calls to nlapiLogExecution from your suitelet. Makes log output less verbose.
-    'emailPath':'/some/path' //The directory path to where nlapiSendEmail emails will be saved.
+    'emailPath':'/some/path', //The directory path to where nlapiSendEmail emails will be saved.
+    'NlapiLogOutLevel': 'debug' // sets the level of output you would like to show in your output
 }
 
 var context = nsContext.getDefaultContext(opts);
