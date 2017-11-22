@@ -4,7 +4,7 @@ NetSUite MOcker
 
 __________________
 
-[![Build Status](https://travis-ci.org/ProductEarthSolutions/netsumo.svg?branch=master)](https://travis-ci.org/ProductEarthSolutions/netsumo)
+[![Build Status](https://travis-ci.org/3EN-Cloud/netsumo.svg?branch=master)](https://travis-ci.org/3EN-Cloud/netsumo)
 
 [![NPM](https://nodei.co/npm/netsumo.png)](https://nodei.co/npm/netsumo/)
 
@@ -172,7 +172,7 @@ You will notice that the output from the `nlapiLogExecution` function calls in o
 
 #### Creating fake endpoints for nlapiRequestURL ####
 
-Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Regex and url are used to match the url directly. Data is what is returned. 
+Use the addEndpoint method inside the context to create a fake endpoint for nlapiRequestURL. The addEndpoint method has 3 options: regex, url and data. Regex and url are used to match the url directly. Data is what is returned.
 
 ```javascript
 var netsumo = require('netsumo');
@@ -180,13 +180,13 @@ var nsContext = netsumo.nsContext;
 var context = nsContext.getDefaultContext();
 
 context.addEndpoint({
-  url: 'https://example.com/admin/products.json', 
+  url: 'https://example.com/admin/products.json',
   data: JSON.stringify({ products: []});
 });
 
 
 context.addEndpoint({
-  regex: /\/admin\/products\.json/g, 
+  regex: /\/admin\/products\.json/g,
   data: JSON.stringify({ products: []});
 });
 ```
