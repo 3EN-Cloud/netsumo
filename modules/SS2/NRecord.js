@@ -6,7 +6,8 @@ module.exports = class NRecord {
     this.Type = {
       ITEM_FULFILLMENT:"itemfulfillment",
       CUSTOMER:"customer",
-      ITEM:"item"
+      ITEM:"item",
+      LOCATION:"location"
     }
     this.records = [];
   }

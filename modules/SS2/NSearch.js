@@ -2,7 +2,8 @@ module.exports = class NSearch {
   constructor() {
     this.Type = {
       CUSTOMER:"customer",
-      ITEM:"item"
+      ITEM:"item",
+      LOCATION:"location"
     }
     this.records = [];
   }
