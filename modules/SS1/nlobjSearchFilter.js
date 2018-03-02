@@ -1,4 +1,4 @@
-var Operator = require('./../utils/Operator');
+var Operator = require('../utils/Operators');
 
 var nlobjSearchFilter = function (name, join, operator, value1, value2) {
 

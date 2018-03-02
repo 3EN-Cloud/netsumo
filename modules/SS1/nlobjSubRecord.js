@@ -1,5 +1,5 @@
 var nlobjSubRecord = function (recordtype, internalid) {
-  var nlobjRecord = require('../modules/nlobjRecord.js')
+  var nlobjRecord = require('./nlobjRecord.js')
   var record = new nlobjRecord(recordtype, internalid);
 
   record.commit = function() {

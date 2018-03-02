@@ -1,4 +1,4 @@
-var nlobjSelectOption = require('../modules/nlobjSelectOption.js')
+var nlobjSelectOption = require('./nlobjSelectOption.js')
 
 var nlobjField = function (name, join, summary) {
 

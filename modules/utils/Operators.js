@@ -1,7 +1,7 @@
-var  Utils = require('./../utils/Utils');
+var  Utils = require('./Utils');
 
 var Operators = function(){
-  
+
   var contains = function(record, name, join, value1, value2){
     var value = record.getFieldValue(name);
     return (value.indexOf(value1) > -1)
@@ -64,7 +64,7 @@ var Operators = function(){
   }
   var after = function(record, name, join, value1, value2){
     return record.getFieldValue(name) >  value1
-  } 
+  }
   var lessthanorequalto = function(record, name, join, value1, value2){
     return record.getFieldValue(name) <= value1
   }
@@ -79,7 +79,7 @@ var Operators = function(){
     }
     // convert to date if it isn't already
     var dateFrom = (typeof value1 == 'string' ? new Date(value1) : value1);
-    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name)); 
+    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name));
     return _daysBetween(dateFrom, dateOnRecord) >= 0;
   }
   var onOrBefore = function(){
@@ -88,11 +88,11 @@ var Operators = function(){
     }
     // convert to date if it isn't already
     var dateFrom = (typeof value1 == 'string' ? new Date(value1) : value1);
-    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name)); 
+    var dateOnRecord = (typeof record.getFieldValue(name) == 'string' ? new Date(record.getFieldValue(name)): record.getFieldValue(name));
     return _daysBetween(dateFrom, dateOnRecord) <= 0;
   }
 
-  // counts the days 
+  // counts the days
   var _daysBetween = function(first, second) {
 
     // Copy date parts of the timestamps, discarding the time parts.

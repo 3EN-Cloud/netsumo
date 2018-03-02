@@ -1,4 +1,4 @@
-var nlobjRecord = require('../modules/nlobjRecord.js')
+var nlobjRecord = require('../modules/SS1/nlobjRecord.js')
 var should = require('chai').should();
 
 describe('nlobjRecord', function() {

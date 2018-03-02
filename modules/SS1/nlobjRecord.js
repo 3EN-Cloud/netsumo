@@ -1,6 +1,6 @@
 var clone = require('clone')
-var nlobjField = require('../modules/nlobjField.js')
-var nlobjSubRecord = require('../modules/nlobjSubRecord.js')
+var nlobjField = require('./nlobjField.js')
+var nlobjSubRecord = require('./nlobjSubRecord.js')
 
 var nlobjRecord = function (recordtype, internalid) {
 

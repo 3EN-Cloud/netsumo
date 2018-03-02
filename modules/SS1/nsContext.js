@@ -1,10 +1,10 @@
-var nlobjRecord = require('../modules/nlobjRecord.js');
-var nlobjSearchFilter = require('../modules/nlobjSearchFilter.js');
-var nlobjSearchColumn = require('../modules/nlobjSearchColumn.js');
-var nlobjSearchResult = require('../modules/nlobjSearchResult.js');
-var nlobjResponse = require('../modules/nlobjResponse.js')
-var nlobjError = require('../modules/nlobjError.js');
-var nlobjContext = require('../modules/nlobjContext.js');
+var nlobjRecord = require('./nlobjRecord.js');
+var nlobjSearchFilter = require('./nlobjSearchFilter.js');
+var nlobjSearchColumn = require('./nlobjSearchColumn.js');
+var nlobjSearchResult = require('./nlobjSearchResult.js');
+var nlobjResponse = require('./nlobjResponse.js')
+var nlobjError = require('./nlobjError.js');
+var nlobjContext = require('./nlobjContext.js');
 var nodemailer = require('nodemailer');
 var pickupTransport = require('nodemailer-pickup-transport');
 
@@ -16,7 +16,7 @@ var executionLogLevelMappings ={
   emergency: 4,
   system: 5
 }
- 
+
 
 exports.getDefaultContext = function(opts) {
 
@@ -263,13 +263,13 @@ exports.getDefaultContext = function(opts) {
   nlapiDateToString = function(d, format){
     format = format.trim().toLowerCase();
     var hours = d.getHours();
-    var ampm = (hours > 11 ? 'pm' : 'am' ); 
+    var ampm = (hours > 11 ? 'pm' : 'am' );
     if(hours > 12){
       hours = hours - 12;
     }
     var dateFormatted =  d.getMonth() + 1 +'/' + d.getDate() +'/' + d.getFullYear();
     var timeFormatted =  hours + ':' + d.getMinutes() + ' ' + ampm;
-    
+
     if(!format || format == 'date'){
       return dateFormatted;
     }else if(format == 'timeofday'){
@@ -280,8 +280,8 @@ exports.getDefaultContext = function(opts) {
     return '';
   };
   var nlapiRequestURL = function(url, postdata, headers, callback, httpMethod){
-    
-    var response; 
+
+    var response;
     endPoints.forEach((endPoint, index) => {
       if(typeof endPoint.data == 'function'){
         endPoint.data = endPoint.data(url, postdata, headers, callback, httpMethod);
