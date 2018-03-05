@@ -4,10 +4,12 @@ module.exports = class Record {
     this.id = options.id;
     this.isDynamic = options.isDynamic;
     this.type = options.type;
+    this.currentLines = {};
 
     this._populateDefaultValues(options);
     this._populateSubrecords(options);
     this._populateSublists(options);
+
   }
 
   _populateSubrecords(options) {
@@ -49,6 +51,19 @@ module.exports = class Record {
     }
   }
 
+  setValue(options){
+    const fieldId = options.fieldId;
+    const value = options.value;
+    if(this[fieldId] === undefined) {
+      this[fieldId] = {
+        value:value,
+        text:value
+      }
+    } else {
+      this[fieldId].value = value;
+    }
+  }
+
   getText(options){
     if( typeof options === 'string' || options instanceof String ) {
       if(this[options]) {
@@ -65,7 +80,45 @@ module.exports = class Record {
 
   getLineCount(options){
     const sublistId = options.sublistId;
+
+    if(!this.sublists) {
+      return 0;
+    }
+
     return this.sublists[sublistId] ? this.sublists[sublistId].length : 0
+  }
+
+  selectNewLine(options){
+    const sublistId = options.sublistId;
+    if(!this.sublists) {
+      this.sublists = {};
+      this.sublists[sublistId] = [{}];
+      this.currentLines[sublistId] = 0;
+    } else if(!this.sublists[sublistId]) {
+      this.sublists[sublistId] = [{}];
+      this.currentLines[sublistId] = 0;
+    } else {
+      this.currentLines[sublistId] = (this.sublists[sublistId].push({})) - 1
+    }
+  }
+
+  selectLine(options){
+    const sublistId = options.sublistId;
+    const line = options.line;
+    this.currentLines[sublistId] = line;
+  }
+
+  setCurrentSublistValue(options){
+    const sublistId = options.sublistId;
+    const fieldId = options.fieldId;
+    const value = options.value;
+
+    if(this.currentLines[sublistId] === undefined) {
+      throw Error("No sublist line selected for: "+sublistId)
+    }
+
+    const line = this.currentLines[sublistId];
+    this.sublists[sublistId][line][fieldId] = value
   }
 
   getSublistValue(options){
@@ -107,16 +160,11 @@ module.exports = class Record {
   removeSublistSubrecord(options){}
   removeSubrecord(options){}
   save(options){}
-  selectLine(options){}
-  selectNewLine(options){}
   setCurrentMatrixSublistValue(options){}
   setCurrentSublistText(options){}
-  setCurrentSublistValue(options){}
   setMatrixHeaderValue(options){}
   setMatrixSublistValue(options){}
   setSublistText(options){}
   setSublistValue(options){}
   setText(options){}
-  setValue(options){}
-
 }
