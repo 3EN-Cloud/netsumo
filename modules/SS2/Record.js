@@ -121,6 +121,15 @@ module.exports = class Record {
     this.sublists[sublistId][line][fieldId] = value
   }
 
+  setSublistValue(options){
+    const sublistId = options.sublistId;
+    const fieldId = options.fieldId;
+    const value = options.value;
+    const line = options.line;
+
+    this.sublists[sublistId][line][fieldId] = value
+  }
+
   getSublistValue(options){
     const sublistId = options.sublistId;
     const index = options.line;
@@ -165,6 +174,5 @@ module.exports = class Record {
   setMatrixHeaderValue(options){}
   setMatrixSublistValue(options){}
   setSublistText(options){}
-  setSublistValue(options){}
   setText(options){}
 }
