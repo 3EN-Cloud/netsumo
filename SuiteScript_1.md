@@ -1,4 +1,4 @@
-# NetSUMO
+# NetSUMO - SuiteScript 1.0 Support
 
 NetSUite MOcker
 
