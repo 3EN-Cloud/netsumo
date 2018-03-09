@@ -76,7 +76,7 @@ exports.getDefaultContext = function(opts) {
       var record = recordsArray[i];
       if(record.getRecordType() == type && record.getId() == id) {
         recordsArray.splice(i, 1);
-        break;
+        return;
       }
     }
     throw new Error('NETSIM ERROR: Couldnt find any record matching id:'+id+' with type: '+type);
