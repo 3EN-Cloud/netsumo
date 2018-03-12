@@ -1,5 +1,5 @@
 var clone = require('clone')
-
+//comment comment
 var nlobjContext = function () {
 
   var name = '';
