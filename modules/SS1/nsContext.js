@@ -28,6 +28,7 @@ exports.getDefaultContext = function(opts) {
   var recordsArray = [];
   var recordId = 0;
   var recordType = '';
+  var currentRecord = null;
   var endPoints = [];
   var nlobjContext;
 
@@ -76,7 +77,7 @@ exports.getDefaultContext = function(opts) {
       var record = recordsArray[i];
       if(record.getRecordType() == type && record.getId() == id) {
         recordsArray.splice(i, 1);
-        break;
+        return;
       }
     }
     throw new Error('NETSIM ERROR: Couldnt find any record matching id:'+id+' with type: '+type);
@@ -98,7 +99,11 @@ exports.getDefaultContext = function(opts) {
       recordsArray.push(record);
     }
 
-    return record.getId();
+    currentRecord = record;
+    recordId = record.getId();
+    recordType = record.getRecordType();
+
+    return recordId;
   };
 
   var nlapiLoadRecord = function(type,id,initializeValues) {
@@ -165,6 +170,10 @@ exports.getDefaultContext = function(opts) {
     }
 
     return searchResults;
+  };
+
+  var nlapiGetFieldValue = function(field) {
+    return currentRecord.getFieldValue(field);
   };
 
   var nlapiSendEmail = function (author,recipient,subject,body,cc,bcc,records,attachments,notifySenderOnBounce,internalOnly,replyTo) {

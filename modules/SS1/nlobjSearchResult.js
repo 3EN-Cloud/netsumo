@@ -37,6 +37,14 @@ var nlobjSearchResult = function () {
     return values[column]
   }
 
+  var getText = function(column, join) {
+    if(column.getName != null || typeof column.getName != 'undefined') {
+      return values[column.getName()]
+    }
+
+    return values[column]
+  }
+
   return {
     getAllColumns:getAllColumns,
     getId:getId,
@@ -44,7 +52,8 @@ var nlobjSearchResult = function () {
     getRecordType:getRecordType,
     setRecordType:setRecordType,
     setValue:setValue,
-    getValue:getValue
+    getValue:getValue,
+    getText:getText
   }
 
 }
