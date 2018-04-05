@@ -121,6 +121,21 @@ module.exports = class Record {
     this.sublists[sublistId][line][fieldId] = value
   }
 
+  insertLine(options){
+
+    const sublistId = options.sublistId;
+    const line = options.line;
+
+    if(!this.sublists) {
+      this.sublists = {};
+      this.sublists[sublistId] = [];
+    } else if(!this.sublists[sublistId]) {
+      this.sublists[sublistId] = [];
+    }
+
+    this.sublists[sublistId].splice( line, 0, {})
+  }
+
   setSublistValue(options){
     const sublistId = options.sublistId;
     const fieldId = options.fieldId;
@@ -163,7 +178,6 @@ module.exports = class Record {
   hasCurrentSublistSubrecord(options){}
   hasSublistSubrecord(options){}
   hasSubrecord(options){}
-  insertLine(options){}
   removeCurrentSublistSubrecord(options){}
   removeLine(options){}
   removeSublistSubrecord(options){}
