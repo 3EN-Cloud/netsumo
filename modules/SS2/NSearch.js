@@ -5,7 +5,15 @@ module.exports = class NSearch {
       ITEM:"item",
       LOCATION:"location"
     }
+    this.Sort = {
+      ASC:"asc",
+      DESC:"desc"
+    }
     this.records = [];
+  }
+
+  create(options) {
+
   }
 
   lookupFields(data) {
