@@ -31,6 +31,9 @@ module.exports = class NFormat {
       TIMETRACK:"TIMETRACK",
       URL:"URL"
     }
+    this.Timezone = {
+      EUROPE_LONDON:"EUROPE_LONDON"
+    }
   }
 
   format(options){
