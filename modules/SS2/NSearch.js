@@ -1,3 +1,5 @@
+const sinon = require('sinon')
+
 module.exports = class NSearch {
   constructor() {
     this.Type = {
@@ -9,11 +11,74 @@ module.exports = class NSearch {
       ASC:"asc",
       DESC:"desc"
     }
+    this.Operator = {
+      AFTER:"AFTER",
+      ALLOF:"ALLOF",
+      ANY:"ANY",
+      ANYOF:"ANYOF",
+      BEFORE:"BEFORE",
+      BETWEEN:"BETWEEN",
+      CONTAINS:"CONTAINS",
+      DOESNOTCONTAIN:"DOESNOTCONTAIN",
+      DOESNOTSTARTWITH:"DOESNOTSTARTWITH",
+      EQUALTO:"EQUALTO",
+      GREATERTHAN:"GREATERTHAN",
+      GREATERTHANOREQUALTO:"GREATERTHANOREQUALTO",
+      HASKEYWORDS:"HASKEYWORDS",
+      IS:"IS",
+      ISEMPTY:"ISEMPTY",
+      ISNOT:"ISNOT",
+      ISNOTEMPTY:"ISNOTEMPTY",
+      LESSTHAN:"LESSTHAN",
+      LESSTHANOREQUALTO:"LESSTHANOREQUALTO",
+      NONEOF:"NONEOF",
+      NOTAFTER:"NOTAFTER",
+      NOTALLOF:"NOTALLOF",
+      NOTBEFORE:"NOTBEFORE",
+      NOTBETWEEN:"NOTBETWEEN",
+      NOTEQUALTO:"NOTEQUALTO",
+      NOTGREATERTHAN:"NOTGREATERTHAN",
+      NOTGREATERTHANOREQUALTO:"NOTGREATERTHANOREQUALTO",
+      NOTLESSTHAN:"NOTLESSTHAN",
+      NOTLESSTHANOREQUALT:"ONOTLESSTHANOREQUALTO",
+      NOTON:"NOTON",
+      NOTONORAFTER:"NOTONORAFTER",
+      NOTONORBEFORE:"NOTONORBEFORE",
+      NOTWITHIN:"NOTWITHIN",
+      ON:"ON",
+      ONORAFTER:"ONORAFTER",
+      ONORBEFORE:"ONORBEFORE",
+      STARTSWITH:"STARTSWITH",
+      WITHIN:"WITHIN"
+    }
+    this.Summary = {
+      GROUP:"GROUP",
+      COUNT:"COUNT",
+      SUM:"SUM",
+      AVG:"AVG",
+      MIN:"MIN",
+      MAX:"MAX"
+    }
     this.records = [];
   }
 
   create(options) {
 
+  }
+
+  searchShouldYield(objectToReturn) {
+    var run = sinon.stub();
+    var each = sinon.stub();
+    each.yields(objectToReturn)
+
+    run.returns({
+      each:each
+    })
+
+    this.create = sinon.stub();
+    this.create.returns({
+      run:run
+    })
   }
 
   lookupFields(data) {
