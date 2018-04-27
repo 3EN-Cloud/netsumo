@@ -81,6 +81,20 @@ module.exports = class NSearch {
     })
   }
 
+  searchShouldYieldNoResults() {
+    var run = sinon.stub();
+    var each = sinon.stub();
+
+    run.returns({
+      each:each
+    })
+
+    this.create = sinon.stub();
+    this.create.returns({
+      run:run
+    })
+  }
+
   lookupFields(data) {
     var records = this.records.filter(record => (record.id == data.id && record.type == data.type));
     var response = {};
