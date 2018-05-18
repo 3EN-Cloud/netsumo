@@ -17,8 +17,11 @@ function loadSuiteScriptModule(filePath) {
   const contentsToReplace = "define";
   const replacementExport = "module.exports = define"
 
+  //global netsuite objects
+  const log = "const log = {debug: (title,details)=>{},audit: (title,details)=>{},emergency: (title,details)=>{},error: (title,details)=>{}}"
+
   var contents = fs.readFileSync(filePath, 'utf8');
-  contents = contents.replace(contentsToReplace,`${define.toString()} ${replacementExport}`);
+  contents = contents.replace(contentsToReplace,`${define.toString()} ${log} ${replacementExport}`);
   var m = new Module();
   m._compile(contents, filePath);
   return m.exports;
