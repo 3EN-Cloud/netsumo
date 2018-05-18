@@ -64,6 +64,19 @@ module.exports = class Record {
     }
   }
 
+  setText(options){
+    const fieldId = options.fieldId;
+    const value = options.text;
+    if(this[fieldId] === undefined) {
+      this[fieldId] = {
+        value:value,
+        text:value
+      }
+    } else {
+      this[fieldId].value = value;
+    }
+  }
+
   getText(options){
     if( typeof options === 'string' || options instanceof String ) {
       if(this[options]) {
@@ -188,5 +201,4 @@ module.exports = class Record {
   setMatrixHeaderValue(options){}
   setMatrixSublistValue(options){}
   setSublistText(options){}
-  setText(options){}
 }
