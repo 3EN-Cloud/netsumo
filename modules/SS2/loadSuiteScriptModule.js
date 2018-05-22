@@ -14,8 +14,8 @@ function define(modules, factory) {
 
 function loadSuiteScriptModule(filePath) {
 
-  const contentsToReplace = "define";
-  const replacementExport = "module.exports = define"
+  const contentsToReplace = "define(";
+  const replacementExport = "module.exports = define("
 
   //global netsuite objects
   const log = "const log = {debug: (title,details)=>{},audit: (title,details)=>{},emergency: (title,details)=>{},error: (title,details)=>{}};"
