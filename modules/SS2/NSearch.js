@@ -82,7 +82,7 @@ module.exports = class NSearch {
   }
 
   searchShouldYieldMultipleResults(results) {
-    const run = {
+    const run = () => {
       results: results,
       each: (callback) => {
         this.results.forEach(result => {
