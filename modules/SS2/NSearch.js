@@ -81,6 +81,24 @@ module.exports = class NSearch {
     })
   }
 
+  searchShouldYieldMultipleResults(results) {
+    var run = sinon.stub();
+    var each = sinon.stub();
+
+    results.forEach((result,index) => {
+      each.onCall(index).yields(result)
+    })
+
+    run.returns({
+      each:each
+    })
+
+    this.create = sinon.stub();
+    this.create.returns({
+      run:run
+    })
+  }
+
   searchShouldYieldNoResults() {
     var run = sinon.stub();
     var each = sinon.stub();
