@@ -82,12 +82,15 @@ module.exports = class NSearch {
   }
 
   searchShouldYieldMultipleResults(results) {
-    const run = () => {
-      results: results,
-      each: (callback) => {
-        this.results.forEach(result => {
-          callback(result);
-        });
+
+    const run = function() {
+      return {
+        results: results,
+        each: function(callback) {
+          this.results.forEach(result => {
+            callback(result);
+          });
+        }
       }
     }
 
