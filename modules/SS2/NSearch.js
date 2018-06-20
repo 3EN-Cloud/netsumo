@@ -82,16 +82,14 @@ module.exports = class NSearch {
   }
 
   searchShouldYieldMultipleResults(results) {
-    var run = sinon.stub();
-    var each = sinon.stub();
-
-    results.forEach((result,index) => {
-      each.onCall(index).yields(result)
-    })
-
-    run.returns({
-      each:each
-    })
+    const run = {
+      results: results,
+      each: (callback) => {
+        this.results.forEach(result => {
+          callback(result);
+        });
+      }
+    }
 
     this.create = sinon.stub();
     this.create.returns({
