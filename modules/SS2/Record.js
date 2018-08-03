@@ -92,7 +92,7 @@ module.exports = class Record {
   }
 
   getLineCount(options){
-    const sublistId = options.sublistId;
+    const sublistId = typeof options === 'string' ? options : options.sublistId;
 
     if(!this.sublists) {
       return 0;
