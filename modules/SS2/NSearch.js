@@ -1,4 +1,5 @@
 const sinon = require('sinon')
+const NRecord = require("./NRecord")
 
 module.exports = class NSearch {
   constructor() {
@@ -115,7 +116,32 @@ module.exports = class NSearch {
   }
 
   lookupFields(data) {
-    var records = this.records.filter(record => (record.id == data.id && record.type == data.type));
+
+    var records = [];
+    if(data.type === this.Type.ITEM) {
+      const nRecord = new NRecord();
+      records = this.records.filter(record => (
+        record.id == data.id &&
+        (
+          record.type == nRecord.Type.INVENTORY_ITEM ||
+          record.type == nRecord.Type.ASSEMBLY_ITEM ||
+          record.type == nRecord.Type.DESCRIPTION_ITEM ||
+          record.type == nRecord.Type.DISCOUNT_ITEM ||
+          record.type == nRecord.Type.GIFT_CERTIFICATE_ITEM ||
+          record.type == nRecord.Type.ITEM_GROUP ||
+          record.type == nRecord.Type.KIT_ITEM ||
+          record.type == nRecord.Type.MARKUP_ITEM ||
+          record.type == nRecord.Type.NON_INVENTORY_ITEM ||
+          record.type == nRecord.Type.OTHER_CHARGE_ITEM ||
+          record.type == nRecord.Type.PAYMENT_ITEM ||
+          record.type == nRecord.Type.SERVICE_ITEM ||
+          record.type == nRecord.Type.SUBTOTAL_ITEM
+        )
+      ));
+    } else {
+      records = this.records.filter(record => (record.id == data.id && record.type == data.type));
+    }
+
     var response = {};
     if(records && records.length > 0) {
       var record = records[0];
