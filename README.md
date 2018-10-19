@@ -127,7 +127,7 @@ test("It sets my custom field value to Hello World!", ()=>{
   })
 
   //Perform assertions
-  expect(itemFulfilmentRecord.getValue("custbody_a_custom_field").toBe("Hello World!")
+  expect(itemFulfilmentRecord.getValue("custbody_a_custom_field")).toBe("Hello World!")
 })
 ```
 
