@@ -43,6 +43,16 @@ module.exports = class Record {
     }
   }
 
+  _findIndexOf(array, key, value) {
+    for (let i=0; i < array.length; i++) {
+      if (array[i].hasOwnProperty(key) && array[i][key] === value) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
   getValue(options){
     if( typeof options === 'string' || options instanceof String ) {
       if(this[options]) {
@@ -174,10 +184,21 @@ module.exports = class Record {
     return this.sublists[sublistId] ? this.sublists[sublistId][index][field] : undefined
   }
 
+  findSublistLineWithValue(options){
+    const sublistId = options.sublistId;
+    const fieldId = options.fieldId;
+    const value = options.value;
+
+    if (this.sublists[sublistId] instanceof Array) {
+      return this._findIndexOf(this.sublists[sublistId], fieldId, value);
+    }
+
+    return -1;
+  }
+
   cancelLine(options) {}
   commitLine(options) {}
   findMatrixSublistLineWithValue(options){}
-  findSublistLineWithValue(options){}
   getCurrentMatrixSublistValue(options){}
   getCurrentSublistField(options){}
   getCurrentSublistIndex(options){}
