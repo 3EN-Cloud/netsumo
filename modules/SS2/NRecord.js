@@ -235,11 +235,12 @@ module.exports = class NRecord {
   }
 
   create(options) {
-    return new Record(options);
+    return new Record(options, this);
   }
 
   load(options) {
     var records = this.records.filter(record => (record.id == options.id && record.type == options.type));
+
     if(records && records.length > 0) {
       return records[0]
     }

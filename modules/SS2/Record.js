@@ -1,10 +1,11 @@
 module.exports = class Record {
 
-  constructor(options) {
+  constructor(options, nRecord) {
     this.id = options.id;
     this.isDynamic = options.isDynamic;
     this.type = options.type;
     this.currentLines = {};
+    this.nRecord = nRecord;
 
     this._populateDefaultValues(options);
     this._populateSubrecords(options);
@@ -54,9 +55,14 @@ module.exports = class Record {
   }
 
   getValue(options){
-    if( typeof options === 'string' || options instanceof String ) {
-      if(this[options]) {
+    if (typeof options === 'string' || options instanceof String) {
+      if (this[options] !== undefined) {
         return this[options].value;
+      }
+    } else {
+      const fieldId = options.fieldId;
+      if(this[fieldId] !== undefined) {
+        return this[options.fieldId].value;
       }
     }
   }
@@ -88,9 +94,14 @@ module.exports = class Record {
   }
 
   getText(options){
-    if( typeof options === 'string' || options instanceof String ) {
-      if(this[options]) {
+    if (typeof options === 'string' || options instanceof String) {
+      if (this[options] !== undefined) {
         return this[options].text;
+      }
+    } else {
+      const fieldId = options.fieldId;
+      if(this[fieldId] !== undefined) {
+        return this[options.fieldId].text;
       }
     }
   }
@@ -196,6 +207,17 @@ module.exports = class Record {
     return -1;
   }
 
+  save(options) {
+    var exists = this.nRecord.load({
+      type: this.type,
+      id: this.id
+    })
+
+    if(!exists) {
+      this.nRecord.addRecord(this);
+    }
+  }
+
   cancelLine(options) {}
   commitLine(options) {}
   findMatrixSublistLineWithValue(options){}
@@ -225,7 +247,6 @@ module.exports = class Record {
   removeLine(options){}
   removeSublistSubrecord(options){}
   removeSubrecord(options){}
-  save(options){}
   setCurrentMatrixSublistValue(options){}
   setCurrentSublistText(options){}
   setMatrixHeaderValue(options){}
