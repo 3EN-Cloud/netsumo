@@ -89,4 +89,24 @@ describe('nlobjRecord', function() {
 
   })
 
+  describe('#findLineItemValue', function() {
+    var record
+    beforeEach(function() {
+      record = nlobjRecord('customrecord', 4);
+      record.selectNewLineItem('item')
+      record.setCurrentLineItemValue('item', 'foo', 'bar')
+      record.commitLineItem('item')
+      record.selectNewLineItem('item')
+      record.setCurrentLineItemValue('item', 'baz', 'qux')
+      record.commitLineItem('item')
+    })
+
+    it('Finds the right line', function() {
+      record.findLineItemValue('item', 'baz', 'qux').should.equal(2)
+    })
+
+    it('Returns -1 if no matching line', function() {
+      record.findLineItemValue('item', 'baz', 'nope').should.equal(-1)
+    })
+  })
 })
