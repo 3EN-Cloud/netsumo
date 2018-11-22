@@ -105,7 +105,14 @@ test("It sets my custom field value to Hello World!", ()=>{
         sys_id:1232342342434,
         sys_parentid:89842893742837,
         pkgWeightUnit:"lbs",
-        packagedescr:"some description"
+        packagedescr:"some description",
+        shippingaddress: record.create({ // create a sublist subrecord (or use an existing Record reference)
+          type: record.Type.Address,
+          id: 1235,
+          defaultValues:{
+            addr1: 'Main street'
+          }
+        })
       }]
       ... //populate sublists here
     }
