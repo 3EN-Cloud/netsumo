@@ -90,8 +90,8 @@ var nlobjRecord = function (recordtype, internalid) {
       currentLineItems[group]['line'] = lineItems.length;
     } else if(group == 'addressbook') {
       currentLineItems[group] = {}
-      currentLineItems[group]['id'] = id+'_'+lineItems.length;
-      currentLineItems[group]['line'] = lineItems.length;
+      currentLineItems[group]['id'] = id+'_'+getLineItemCount(group);
+      currentLineItems[group]['line'] = getLineItemCount(group);
       currentLineItems[group]['addressbookaddress'] = [];
     } else {
       throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
