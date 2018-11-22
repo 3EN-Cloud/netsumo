@@ -124,9 +124,11 @@ var nlobjRecord = function (recordtype, internalid) {
 
   var commitLineItem = function(group,ignoreRecalc) {
     if(group == 'item') {
-      lineItems.push(currentLineItems[group])
+      if (lineItems.indexOf(currentLineItems[group]) === -1)
+        lineItems.push(currentLineItems[group])
     } else if(group == 'addressbook') {
-      addressBookLines.push(currentLineItems[group])
+      if (addressBookLines.indexOf(currentLineItems[group]) === -1)
+        addressBookLines.push(currentLineItems[group])
     } else {
       throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
     }
