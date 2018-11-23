@@ -81,4 +81,91 @@ describe('Record', function() {
     });
 
   })
+
+  describe('hasSublistSubrecord()', function() {
+    const address = new Record({
+      id: 1000,
+      defaultValues: {
+        addr1: 'Main Street',
+      }
+    });
+    const record = new Record({
+      id: 1,
+      sublists: {
+        'addressbook': [
+          {
+            id: 100,
+            label: 'Office'
+          }, {
+            id: 101,
+            label: 'Warehouse',
+            addressbookaddress: address
+          },
+        ]
+      }
+    });
+
+    it('returns false when there is no subrecord', () => {
+      const options = {
+        sublistId: 'addressbook',
+        fieldId: 'addressbookaddress',
+        line: 0,
+      };
+      record.hasSublistSubrecord(options).should.equal(false);
+    });
+
+    it('returns true when there is a subrecord', () => {
+      const options = {
+        sublistId: 'addressbook',
+        fieldId: 'addressbookaddress',
+        line: 1,
+      };
+      record.hasSublistSubrecord(options).should.equal(true);
+    });
+
+  })
+
+  describe('getSublistSubrecord()', function() {
+    const address = new Record({
+      id: 1000,
+      defaultValues: {
+        addr1: 'Main Street',
+      }
+    });
+    const record = new Record({
+      id: 1,
+      sublists: {
+        'addressbook': [
+          {
+            id: 100,
+            label: 'Office'
+          }, {
+            id: 101,
+            label: 'Warehouse',
+            addressbookaddress: address
+          },
+        ]
+      }
+    });
+
+    it('returns undefined when no record exists', () => {
+      const options = {
+        sublistId: 'addressbook',
+        fieldId: 'addressbookaddress',
+        line: 0,
+      };
+      should.equal(record.getSublistSubrecord(options), undefined);
+    });
+
+    it('returns the record when it exists in the sublist', () => {
+      const options = {
+        sublistId: 'addressbook',
+        fieldId: 'addressbookaddress',
+        line: 1,
+      };
+      record.getSublistSubrecord(options).should.equal(address);
+    });
+
+  })
+
 })

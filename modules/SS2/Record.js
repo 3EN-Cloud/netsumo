@@ -218,6 +218,24 @@ module.exports = class Record {
     }
   }
 
+  hasSublistSubrecord(options){
+    const sublistId = options.sublistId;
+    const fieldId = options.fieldId;
+    const line = options.line;
+
+    return this.sublists[sublistId][line][fieldId] instanceof Record;
+  }
+
+  getSublistSubrecord(options){
+    const sublistId = options.sublistId;
+    const fieldId = options.fieldId;
+    const line = options.line;
+
+    if (!this.hasSublistSubrecord(options)) return undefined;
+
+    return this.sublists[sublistId][line][fieldId];
+  }
+  
   cancelLine(options) {}
   commitLine(options) {}
   findMatrixSublistLineWithValue(options){}
@@ -238,10 +256,8 @@ module.exports = class Record {
   getSublists(){}
   getSublistField(options){}
   getSublistFields(options){}
-  getSublistSubrecord(options){}
   getSublistText(options){}
   hasCurrentSublistSubrecord(options){}
-  hasSublistSubrecord(options){}
   hasSubrecord(options){}
   removeCurrentSublistSubrecord(options){}
   removeLine(options){}
