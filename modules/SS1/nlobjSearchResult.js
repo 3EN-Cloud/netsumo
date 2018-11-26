@@ -44,7 +44,8 @@ var nlobjSearchResult = function () {
     getRecordType:getRecordType,
     setRecordType:setRecordType,
     setValue:setValue,
-    getValue:getValue
+    getValue:getValue,
+    getText:getValue
   }
 
 }
