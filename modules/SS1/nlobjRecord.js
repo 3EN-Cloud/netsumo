@@ -98,6 +98,10 @@ var nlobjRecord = function (recordtype, internalid) {
     currentLineItems[group][name] = value
   }
 
+  var setCurrentLineItemText = function(group,name,text) {
+    currentLineItems[group][name] = text
+  }
+
   var commitLineItem = function(group,ignoreRecalc) {
     var sublist = sublists[group]
     if (sublist.indexOf(currentLineItems[group]) === -1) {
@@ -165,6 +169,7 @@ var nlobjRecord = function (recordtype, internalid) {
     findLineItemValue : findLineItemValue,
     selectNewLineItem : selectNewLineItem,
     setCurrentLineItemValue : setCurrentLineItemValue,
+    setCurrentLineItemText : setCurrentLineItemText,
     commitLineItem : commitLineItem,
     getRecordType : getRecordType,
     getId : getId,
