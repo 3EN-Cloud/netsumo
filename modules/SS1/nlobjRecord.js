@@ -10,8 +10,12 @@ var nlobjRecord = function (recordtype, internalid) {
 
   var id = internalid;
   var type = recordtype;
-  var lineItems = [];
-  var addressBookLines = [];
+  var sublists = {
+    'item': [],
+    'addressbook': []
+  };
+  var lineItems = sublists.item;
+  var addressBookLines = sublists.addressbook;
   var fields = [];
   var fieldValues = {};
   var currentLineItems =  {
@@ -39,62 +43,40 @@ var nlobjRecord = function (recordtype, internalid) {
   }
 
   var getLineItemCount = function(group) {
-    if(group == 'item') {
-      return lineItems.length
-    } else if(group == 'addressbook') {
-      return addressBookLines.length
-    } else {
-      return 0
+    if(typeof sublists[group] !== 'undefined') {
+      return sublists[group].length;
     }
+    return 0;
   }
 
   var setLineItemValue = function(group,name,linenum,value) {
-    if(group == 'item') {
-      lineItems[linenum-1][name] = value
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
-    }
+    sublists[group][linenum-1][name] = value;
   }
 
   var getLineItemValue = function(group,name,line) {
-    if(group == 'item') {
-      return lineItems[line-1][name]
-    } else if(group == 'addressbook') {
-      return addressBookLines[line-1][name]
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
-    }
+    return sublists[group][line-1][name];
   }
 
   var findLineItemValue = function(group,name,value) {
-    if(group == 'item') {
-      for(var i = 0; i < lineItems.length; i++) {
-        if(lineItems[i][name] == value)
-          return i+1
-      }
-    } else if(group == 'addressbook') {
-      for(var i = 0; i < addressBookLines.length; i++) {
-        if(addressBookLines[i][name] == value)
-          return i+1
-      }
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
+    var sublist = sublists[group];
+    for(var i = 0; i < sublist.length; i++) {
+      if(sublist[i][name] == value)
+        return i+1
     }
     return -1
   }
 
   var selectNewLineItem = function(group) {
-    if(group == 'item') {
-      currentLineItems[group] = {}
-      currentLineItems[group]['id'] = id+'_'+lineItems.length;
-      currentLineItems[group]['line'] = lineItems.length;
-    } else if(group == 'addressbook') {
-      currentLineItems[group] = {}
-      currentLineItems[group]['id'] = id+'_'+getLineItemCount(group);
-      currentLineItems[group]['line'] = getLineItemCount(group);
+    if (typeof sublists[group] === 'undefined') {
+      sublists[group] = [];
+    }
+    currentLineItems[group] = {
+      'id': id+'_'+getLineItemCount(group),
+      'line': getLineItemCount(group),
+    }
+
+    if (group === 'addressbook') {
       currentLineItems[group]['addressbookaddress'] = [];
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
     }
   }
 
@@ -104,14 +86,8 @@ var nlobjRecord = function (recordtype, internalid) {
     return subRecord;
   }
 
-  var selectLineItem = function(group,linenum) {
-    if(group == 'item') {
-      currentLineItems[group] = lineItems[linenum-1]
-    } else if(group == 'addressbook') {
-      currentLineItems[group] = addressBookLines[linenum-1]
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
-    }
+  var selectLineItem = function(group, linenum) {
+    currentLineItems[group] = sublists[group][linenum-1]
   }
 
   var viewCurrentLineItemSubrecord = function(sublist,fldname) {
@@ -122,15 +98,14 @@ var nlobjRecord = function (recordtype, internalid) {
     currentLineItems[group][name] = value
   }
 
+  var setCurrentLineItemText = function(group,name,text) {
+    currentLineItems[group][name] = text
+  }
+
   var commitLineItem = function(group,ignoreRecalc) {
-    if(group == 'item') {
-      if (lineItems.indexOf(currentLineItems[group]) === -1)
-        lineItems.push(currentLineItems[group])
-    } else if(group == 'addressbook') {
-      if (addressBookLines.indexOf(currentLineItems[group]) === -1)
-        addressBookLines.push(currentLineItems[group])
-    } else {
-      throw new Error('NETSIM ERROR: Line item group: '+group+' is unsupported.');
+    var sublist = sublists[group]
+    if (sublist.indexOf(currentLineItems[group]) === -1) {
+      sublist.push(currentLineItems[group])
     }
   }
 
@@ -194,6 +169,7 @@ var nlobjRecord = function (recordtype, internalid) {
     findLineItemValue : findLineItemValue,
     selectNewLineItem : selectNewLineItem,
     setCurrentLineItemValue : setCurrentLineItemValue,
+    setCurrentLineItemText : setCurrentLineItemText,
     commitLineItem : commitLineItem,
     getRecordType : getRecordType,
     getId : getId,

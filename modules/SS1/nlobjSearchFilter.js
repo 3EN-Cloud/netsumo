@@ -35,7 +35,7 @@ var nlobjSearchFilter = function (name, join, operator, value1, value2) {
   var matchesRecord = function(record) {
 
     try{
-      operatorIns[operator](record, name, join, value1, value2);
+      return operatorIns[operator](record, name, join, value1, value2);
     }catch(err){
       throw new Error('NETSIM ERROR: '+operator+' is unsupported.');
     }
