@@ -168,4 +168,49 @@ describe('Record', function() {
 
   })
 
+  describe('removeLine()', function() {
+    const record = new Record({
+      id: '1',
+      sublists: {
+        'item': [
+          {id: '1_0'},
+          {id: '1_1'},
+          {id: '1_2'},
+        ],
+      },
+    });
+
+    it("does not error if line doesn't exist", () => {
+      const options = {
+        sublistId: 'item',
+        line: 999,
+      };
+      should.not.throw(() => record.removeLine(options));
+    });
+
+    it("errors if sublistId is not on record", () => {
+      const options = {
+        sublistId: 'invalid',
+        line: 0,
+      };
+      should.throw(() => record.removeLine(options));
+    });
+
+    it("removes an existing line and returns the record", () => {
+      const options = {
+        sublistId: 'item',
+        line: 1,
+      };
+      record.removeLine(options).sublists['item'].should.eql([{id: '1_0'}, {id: '1_2'}]);
+    });
+
+    it("returns the record regardless of operation success", () => {
+      const options = {
+        sublistId: 'item',
+        line: 999,
+      };
+
+      record.removeLine(options).should.be.a('Object');
+    });
+  })
 })
