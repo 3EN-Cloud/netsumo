@@ -235,7 +235,17 @@ module.exports = class Record {
 
     return this.sublists[sublistId][line][fieldId];
   }
-  
+
+  removeLine(options){
+    const sublistId = options.sublistId;
+    const line = options.line;
+
+    this.sublists[sublistId].splice(line, 1);
+
+    return this;
+  }
+
+
   cancelLine(options) {}
   commitLine(options) {}
   findMatrixSublistLineWithValue(options){}
@@ -260,7 +270,6 @@ module.exports = class Record {
   hasCurrentSublistSubrecord(options){}
   hasSubrecord(options){}
   removeCurrentSublistSubrecord(options){}
-  removeLine(options){}
   removeSublistSubrecord(options){}
   removeSubrecord(options){}
   setCurrentMatrixSublistValue(options){}
