@@ -78,6 +78,8 @@ module.exports = class Record {
     } else {
       this[fieldId].value = value;
     }
+
+    return this;
   }
 
   setText(options){
@@ -91,6 +93,8 @@ module.exports = class Record {
     } else {
       this[fieldId].value = value;
     }
+
+    return this;
   }
 
   getText(options){
@@ -134,12 +138,16 @@ module.exports = class Record {
     } else {
       this.currentLines[sublistId] = (this.sublists[sublistId].push({})) - 1
     }
+
+    return this;
   }
 
   selectLine(options){
     const sublistId = options.sublistId;
     const line = options.line;
     this.currentLines[sublistId] = line;
+
+    return this;
   }
 
   setCurrentSublistValue(options){
@@ -153,6 +161,8 @@ module.exports = class Record {
 
     const line = this.currentLines[sublistId];
     this.sublists[sublistId][line][fieldId] = value
+
+    return this;
   }
 
   insertLine(options){
@@ -168,6 +178,8 @@ module.exports = class Record {
     }
 
     this.sublists[sublistId].splice( line, 0, {})
+
+    return this;
   }
 
   setSublistValue(options){
@@ -177,6 +189,8 @@ module.exports = class Record {
     const line = options.line;
 
     this.sublists[sublistId][line][fieldId] = value
+
+    return this;
   }
 
   setSublistText(options){
@@ -186,12 +200,15 @@ module.exports = class Record {
     const line = options.line;
 
     this.sublists[sublistId][line][fieldId] = text
+
+    return this;
   }
 
   getSublistValue(options){
     const sublistId = options.sublistId;
     const index = options.line;
     const field = options.fieldId;
+
     return this.sublists[sublistId] ? this.sublists[sublistId][index][field] : undefined
   }
 
@@ -216,6 +233,8 @@ module.exports = class Record {
     if(!exists) {
       this.nRecord.addRecord(this);
     }
+
+    return this.id;
   }
 
   hasSublistSubrecord(options){
