@@ -116,10 +116,10 @@ module.exports = class Record {
     const sublistId = typeof options === 'string' ? options : options.sublistId;
 
     if(!this.sublists) {
-      return 0;
+      return -1;
     }
 
-    return this.sublists[sublistId] ? this.sublists[sublistId].length : 0
+    return this.sublists[sublistId] ? this.sublists[sublistId].length : -1
   }
 
   selectNewLine(options){

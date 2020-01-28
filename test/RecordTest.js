@@ -168,4 +168,31 @@ describe('Record', function() {
 
   })
 
+  describe('getLineCount()', function() {
+    const record = new Record({
+      id: '1',
+      sublists: {
+        'hasThreeItems': [
+          {id: '1_0'},
+          {id: '1_1'},
+          {id: '1_2'},
+        ],
+        'isEmpty': [],
+      },
+    });
+
+    const recordWithoutSublists = new Record({
+      id: '2',
+    });
+
+    it("returns correct count", () => {
+      record.getLineCount({sublistId: 'hasThreeItems'}).should.equal(3);
+      record.getLineCount({sublistId: 'isEmpty'}).should.equal(0);
+    });
+
+    it("returns -1 if sublist doesn't exist", () => {
+      record.getLineCount({sublistId: 'missing'}).should.equal(-1);
+      recordWithoutSublists.getLineCount({sublistId: 'missing'}).should.equal(-1);
+    });
+  });
 })
