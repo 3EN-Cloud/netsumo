@@ -235,6 +235,13 @@ module.exports = class Record {
 
     return this.sublists[sublistId][line][fieldId];
   }
+
+  getCurrentSublistSubrecord(options){
+    if (typeof options.sublistId === 'undefined' || typeof this.currentLines[options.sublistId] === 'undefined') {
+      return undefined;
+    }
+    return this.getSublistSubrecord(Object.assign(options, { line: this.currentLines[options.sublistId] }));
+  }
   
   cancelLine(options) {}
   commitLine(options) {}
@@ -242,7 +249,7 @@ module.exports = class Record {
   getCurrentMatrixSublistValue(options){}
   getCurrentSublistField(options){}
   getCurrentSublistIndex(options){}
-  getCurrentSublistSubrecord(options){}
+
   getCurrentSublistText(options){}
   getCurrentSublistValue(options){}
   getField(options){}
